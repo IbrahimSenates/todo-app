@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import 'package:todo_app_2/model/todo_model.dart';
-import 'package:todo_app_2/service/data_base_service.dart';
 
 class TodoItem extends StatefulWidget {
-  const TodoItem({super.key, required this.task, required this.onUpdate});
+  const TodoItem({super.key, required this.task});
   final Todo task;
-  final VoidCallback onUpdate;
 
   @override
   State<TodoItem> createState() => _TodoItemState();
@@ -16,7 +13,6 @@ class TodoItem extends StatefulWidget {
 bool isChecked = false;
 
 class _TodoItemState extends State<TodoItem> {
-  final _databaseService = DataBaseService();
   @override
   Widget build(BuildContext context) {
     return Card(
