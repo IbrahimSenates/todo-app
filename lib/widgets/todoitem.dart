@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import 'package:todo_app_2/model/todo_model.dart';
+import 'package:todo_app_2/service/data_base_service.dart';
 
 class TodoItem extends StatefulWidget {
-  const TodoItem({super.key, required this.task});
+  const TodoItem({super.key, required this.task, required this.onUpdate});
   final Todo task;
+  final VoidCallback onUpdate;
 
   @override
   State<TodoItem> createState() => _TodoItemState();

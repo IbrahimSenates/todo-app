@@ -7,21 +7,18 @@ class TodoListColumn extends StatefulWidget {
     super.key,
     required this.databaseService,
     required this.showCompleted,
+    required this.onUpdate,
   });
 
   final DataBaseService databaseService;
   final bool showCompleted;
+  final VoidCallback onUpdate;
 
   @override
   State<TodoListColumn> createState() => _TodoListColumnState();
 }
 
 class _TodoListColumnState extends State<TodoListColumn> {
-  Future<void> _getTodoList() async {
-    await widget.databaseService.fetchTodos();
-    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
     final todos = widget.databaseService.currentTodos
@@ -114,13 +111,11 @@ class _TodoListColumnState extends State<TodoListColumn> {
                   await widget.databaseService.deleteTodo(todo.id);
                 } else if (direction == DismissDirection.startToEnd) {
                   await widget.databaseService.updateCompleted(todo.id);
-                  setState(() {
-                    todo.isCompleted = !todo.isCompleted;
-                  });
                 }
-                await _getTodoList();
+
+                widget.onUpdate();
               },
-              child: TodoItem(task: todo),
+              child: TodoItem(task: todo, onUpdate: widget.onUpdate),
             );
           },
         ),

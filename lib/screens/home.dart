@@ -2,9 +2,12 @@ import "package:flutter/material.dart";
 import "package:hexcolor/hexcolor.dart";
 import "package:todo_app_2/constants/color.dart";
 import "package:todo_app_2/service/data_base_service.dart";
+
 import "package:todo_app_2/widgets/header_widget.dart";
 import "package:todo_app_2/screens/add_new_task.dart";
 import "package:todo_app_2/widgets/todo_list_column.dart";
+
+import "package:todo_app_2/widgets/todoitem.dart";
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -41,6 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
             TodoListColumn(
               databaseService: _databaseService,
               showCompleted: false,
+              onUpdate: _getTodoList,
             ),
 
             //Completed
@@ -59,8 +63,8 @@ class _HomeScreenState extends State<HomeScreen> {
             TodoListColumn(
               databaseService: _databaseService,
               showCompleted: true,
+              onUpdate: _getTodoList,
             ),
-
             ElevatedButton(
               onPressed: () async {
                 final result = await Navigator.push(
