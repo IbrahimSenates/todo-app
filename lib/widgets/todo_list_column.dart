@@ -31,7 +31,7 @@ class _TodoListColumnState extends State<TodoListColumn> {
         child: Center(
           child: widget.showCompleted
               ? Text(
-                  "Bitirilmemiş görev yok",
+                  "Bitirilmiş görev yok",
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,

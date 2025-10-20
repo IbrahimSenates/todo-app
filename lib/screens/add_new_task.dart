@@ -83,6 +83,8 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                   ],
                 ),
               ),
+
+              //Başlık alanı
               Padding(
                 padding: const EdgeInsets.only(top: 10),
                 child: Text(
@@ -117,6 +119,8 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                   ),
                 ),
               ),
+
+              //Kategori alanı
               Padding(
                 padding: const EdgeInsets.only(top: 20),
                 child: Row(
@@ -177,6 +181,8 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                   ],
                 ),
               ),
+
+              //Tarih zaman alanı
               Padding(
                 padding: const EdgeInsets.only(top: 10),
                 child: Row(
@@ -194,6 +200,8 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                   ],
                 ),
               ),
+
+              //Açıklama alanı
               Padding(
                 padding: const EdgeInsets.only(top: 10),
                 child: Text(
@@ -241,43 +249,46 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                 ),
               ),
 
-              Positioned(
-                right: 0,
-                left: 0,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.all(
-                      HexColor(buttonColor),
+              Padding(
+                padding: const EdgeInsets.only(top: 15, right: 30, left: 30),
+                child: SizedBox(
+                  width: double.infinity,
+
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.all(
+                        HexColor(buttonColor),
+                      ),
                     ),
-                  ),
-                  onPressed: () async {
-                    if (titleController.text.isEmpty) {
+                    onPressed: () async {
+                      if (titleController.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Lütfen bir başlık girin'),
+                            backgroundColor: Colors.redAccent,
+                            duration: Duration(seconds: 1),
+                          ),
+                        );
+                        return;
+                      }
+                      await _addTodo();
+                      Navigator.pop(context, true);
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text('Lütfen bir başlık girin'),
-                          backgroundColor: Colors.redAccent,
-                          duration: Duration(seconds: 1),
+                          content: Text('Görev başarıyla eklendi'),
+                          backgroundColor: Colors.green,
+                          duration: Duration(seconds: 2),
                         ),
                       );
-                      return;
-                    }
-                    await _addTodo();
-                    Navigator.pop(context, true);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Görev başarıyla eklendi'),
-                        backgroundColor: Colors.green,
-                        duration: Duration(seconds: 2),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    margin: EdgeInsets.only(top: 20, bottom: 20),
-                    child: Text(
-                      'Yeni Görev Ekle',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(top: 20, bottom: 20),
+                      child: Text(
+                        'Yeni Görev Ekle',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
