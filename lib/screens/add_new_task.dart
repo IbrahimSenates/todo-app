@@ -95,8 +95,25 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                 child: TextField(
                   controller: titleController,
                   decoration: InputDecoration(
+                    hintText: 'Bir başlık giriniz...',
+                    hintStyle: TextStyle(
+                      color: Colors.grey.shade500,
+                      fontSize: 16,
+                      fontStyle: FontStyle.italic,
+                    ),
                     filled: true,
                     fillColor: Colors.white,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: BorderSide(color: Colors.white, width: 2.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: BorderSide(
+                        color: HexColor(mainColor),
+                        width: 2.0,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -105,7 +122,13 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text('Kategori'),
+                    Text(
+                      'Kategori',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
 
                     GestureDetector(
                       onTap: () {
@@ -173,45 +196,92 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 10),
-                child: Text('Açıklama'),
+                child: Text(
+                  'Açıklama',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
               ),
               SizedBox(
-                height: 300,
-                child: TextField(
-                  controller: descriptionController,
-                  expands: true,
-                  maxLines: null,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    isDense: true,
+                height: 250,
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20),
+
+                  child: TextField(
+                    style: TextStyle(fontSize: 21),
+                    controller: descriptionController,
+
+                    maxLines: 12,
+                    decoration: InputDecoration(
+                      hintText: 'Görev hakkında detaylı açıklama girin...',
+                      hintStyle: TextStyle(
+                        color: Colors.grey.shade500,
+                        fontSize: 16,
+                        fontStyle: FontStyle.italic,
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 20,
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide(width: 2.0, color: Colors.white),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide(
+                          color: HexColor(mainColor),
+                          width: 2.0,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
 
-              ElevatedButton(
-                onPressed: () async {
-                  if (titleController.text.isEmpty) {
+              Positioned(
+                right: 0,
+                left: 0,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all(
+                      HexColor(buttonColor),
+                    ),
+                  ),
+                  onPressed: () async {
+                    if (titleController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Lütfen bir başlık girin'),
+                          backgroundColor: Colors.redAccent,
+                          duration: Duration(seconds: 1),
+                        ),
+                      );
+                      return;
+                    }
+                    await _addTodo();
+                    Navigator.pop(context, true);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Lütfen bir başlık girin'),
-                        backgroundColor: Colors.redAccent,
-                        duration: Duration(seconds: 1),
+                        content: Text('Görev başarıyla eklendi'),
+                        backgroundColor: Colors.green,
+                        duration: Duration(seconds: 2),
                       ),
                     );
-                    return;
-                  }
-                  await _addTodo();
-                  Navigator.pop(context, true);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Görev başarıyla eklendi'),
-                      backgroundColor: Colors.green,
-                      duration: Duration(seconds: 2),
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(top: 20, bottom: 20),
+                    child: Text(
+                      'Yeni Görev Ekle',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  );
-                },
-                child: Text('Kaydet'),
+                  ),
+                ),
               ),
             ],
           ),

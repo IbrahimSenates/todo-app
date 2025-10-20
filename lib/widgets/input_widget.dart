@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:todo_app_2/constants/color.dart';
 
 class InputWidget extends StatefulWidget {
   const InputWidget({
@@ -27,7 +29,10 @@ class _InputWidgetState extends State<InputWidget> {
     return Expanded(
       child: Column(
         children: [
-          Text(widget.text),
+          Text(
+            widget.text,
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: TextField(
@@ -66,6 +71,23 @@ class _InputWidgetState extends State<InputWidget> {
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
+                hintText: '${widget.text} giriniz...',
+                hintStyle: TextStyle(
+                  color: Colors.grey.shade500,
+                  fontSize: 16,
+                  fontStyle: FontStyle.italic,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                  borderSide: BorderSide(color: Colors.white, width: 2.0),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                  borderSide: BorderSide(
+                    color: HexColor(mainColor),
+                    width: 2.0,
+                  ),
+                ),
               ),
             ),
           ),

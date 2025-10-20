@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class HeaderItem extends StatelessWidget {
-  const HeaderItem({super.key});
+  HeaderItem({super.key});
+  final String formattedData = DateFormat('MMM dd, y').format(DateTime.now());
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class HeaderItem extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(top: 20),
             child: Text(
-              "29 Ocak 2025",
+              formattedData,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18,
@@ -31,9 +33,9 @@ class HeaderItem extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: 40),
+            padding: EdgeInsets.only(top: 20),
             child: Text(
-              "My ",
+              "My Tasks",
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 35,
