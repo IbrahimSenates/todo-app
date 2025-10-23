@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:todo_app_2/constants/color.dart';
 
 class HeaderItem extends StatelessWidget {
   HeaderItem({super.key});
-  final String formattedData = DateFormat('MMM dd, y').format(DateTime.now());
+  final String formattedData = DateFormat(
+    'MMMM dd, y',
+    'tr_TR',
+  ).format(DateTime.now());
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +16,7 @@ class HeaderItem extends StatelessWidget {
     double deviceWidht = MediaQuery.of(context).size.width;
     return Container(
       decoration: BoxDecoration(
-        color: Colors.purple,
+        color: HexColor(buttonColor),
         image: DecorationImage(
           image: AssetImage("lib/assets/images/header.png"),
           fit: BoxFit.fill,
@@ -35,7 +40,7 @@ class HeaderItem extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(top: 20),
             child: Text(
-              "My Tasks",
+              "Yapılacaklar",
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 35,

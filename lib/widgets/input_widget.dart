@@ -19,8 +19,8 @@ class InputWidget extends StatefulWidget {
 }
 
 DateTime nowDate = DateTime.now();
-DateTime firstDate = DateTime(nowDate.year, nowDate.month - 2);
-DateTime lastDate = DateTime(nowDate.year, nowDate.month + 2);
+DateTime firstDate = DateTime(nowDate.year, nowDate.month, nowDate.day);
+DateTime lastDate = DateTime(nowDate.year + 10);
 TimeOfDay nowTime = TimeOfDay.now();
 
 class _InputWidgetState extends State<InputWidget> {

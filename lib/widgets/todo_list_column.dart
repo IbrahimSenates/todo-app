@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app_2/screens/task_screen.dart';
 import 'package:todo_app_2/service/data_base_service.dart';
+import 'package:todo_app_2/service/notification_service.dart';
 import 'package:todo_app_2/widgets/todoitem.dart';
 
 class TodoListColumn extends StatefulWidget {
@@ -136,9 +137,26 @@ class _TodoListColumnState extends State<TodoListColumn> {
             ),
             onDismissed: (direction) async {
               if (direction == DismissDirection.endToStart) {
+                await NotificationHelper().deleteNotification(id: todo.id);
                 await widget.databaseService.deleteTodo(todo.id);
               } else if (direction == DismissDirection.startToEnd) {
                 await widget.databaseService.updateCompleted(todo.id);
+                final updatedTodo = widget.databaseService.currentTodos
+                    .firstWhere((t) => t.id == todo.id);
+
+                if (updatedTodo.isCompleted) {
+                  // Tamamlandıysa bildirimi pasifleştir
+                  await NotificationHelper().deleteNotification(id: todo.id);
+                } else {
+                  // Tamamlanmadıysa bildirimi yeniden planla
+                  await NotificationHelper.enableNotification(
+                    id: updatedTodo.id,
+                    title: "Hazırsan, görev seni bekliyor!",
+                    body: updatedTodo.text!,
+                    dateTime: updatedTodo.dateTime,
+                    time: updatedTodo.time,
+                  );
+                }
               }
 
               widget.onUpdate();

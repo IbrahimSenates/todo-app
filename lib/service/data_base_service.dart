@@ -15,7 +15,7 @@ class DataBaseService {
   List<Todo> currentTodos = [];
 
   //Görev ekle
-  Future<void> addTodo(
+  Future<int> addTodo(
     String text,
     String category,
     DateTime date,
@@ -30,6 +30,7 @@ class DataBaseService {
       ..description = description;
     isar.writeTxn(() => isar.todos.put(newTodo));
     await fetchTodos();
+    return newTodo.id;
   }
 
   //Görevleri getir

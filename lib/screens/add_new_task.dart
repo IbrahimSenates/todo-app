@@ -23,14 +23,14 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
 
   final _databaseService = DataBaseService();
 
-  Future<void> _addTodo() async {
+  Future<int> _addTodo() async {
     DateTime selectedDate;
     if (dateController.text.isEmpty) {
       selectedDate = await DateTime.now(); // Tarih seçilmediyse bugünün tarihi
     } else {
       selectedDate = DateFormat('dd.MM.yyyy').parse(dateController.text);
     }
-    await _databaseService.addTodo(
+    final todoId = await _databaseService.addTodo(
       titleController.text,
       taskType,
       selectedDate,
@@ -39,6 +39,7 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
     );
 
     setState(() {});
+    return todoId;
   }
 
   @override
@@ -318,10 +319,13 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                         return;
                       }
 
+                      final todoId = await _addTodo();
+
                       // 🔔 Bildirimi planla
                       await NotificationHelper().scheduleNotification(
-                        title: titleController.text,
-                        body: 'Görev zamanınız geldi..',
+                        id: todoId,
+                        title: 'Yaklaşan görevin var',
+                        body: titleController.text,
                         year: selectedDate.year,
                         month: selectedDate.month,
                         day: selectedDate.day,
@@ -329,10 +333,7 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                         minute: minute,
                       );
 
-                      // 💾 Veritabanına kaydet
-                      await _addTodo();
-
-                      // 🎉 Ekranı kapat + bilgi mesajı
+                      //  Ekranı kapat + bilgi mesajı
                       Navigator.pop(context, true);
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(

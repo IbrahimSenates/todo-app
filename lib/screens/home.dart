@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Align(
                 alignment: AlignmentGeometry.centerLeft,
                 child: Text(
-                  'Completed',
+                  'Tamamlanan',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
               ),
