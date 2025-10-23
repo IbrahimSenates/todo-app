@@ -17,12 +17,34 @@ class _TaskScreenState extends State<TaskScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 100,
         iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: HexColor(buttonColor),
         centerTitle: true,
-        title: Text(
-          'Göreviniz',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        title: Column(
+          children: [
+            Text(
+              DateFormat(
+                'dd.MM.yyyy, EEEE',
+                'tr_TR',
+              ).format(widget.task.dateTime),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 10),
+
+            Text(
+              widget.task.time!,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
         ),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(4.0),
@@ -43,31 +65,7 @@ class _TaskScreenState extends State<TaskScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Align(
-              alignment: AlignmentGeometry.center,
-              child: Column(
-                children: [
-                  SizedBox(height: 20),
-                  Text(
-                    DateFormat('dd.MM.yyyy, E').format(widget.task.dateTime),
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    widget.task.time!,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
 
             Container(
               margin: EdgeInsets.symmetric(horizontal: 10),

@@ -3,6 +3,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app_2/constants/color.dart';
 import 'package:todo_app_2/service/data_base_service.dart';
+import 'package:todo_app_2/service/notification_service.dart';
 import 'package:todo_app_2/widgets/input_widget.dart';
 
 class AddNewTaskScreen extends StatefulWidget {
@@ -93,7 +94,7 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                 ),
               ),
               Padding(
-                padding: EdgeInsetsGeometry.symmetric(horizontal: 30),
+                padding: EdgeInsetsGeometry.symmetric(horizontal: 20),
                 child: TextField(
                   controller: titleController,
                   decoration: InputDecoration(
@@ -127,7 +128,7 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
-                      'Kategori',
+                      'Kategori :',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -193,7 +194,7 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                       picker: 'Tarih',
                     ),
                     InputWidget(
-                      text: 'Zaman',
+                      text: 'Saat',
                       controllerInput: timeController,
                       picker: 'Saat',
                     ),
@@ -263,7 +264,7 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                     onPressed: () async {
                       if (titleController.text.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
                             content: Text('Lütfen bir başlık girin'),
                             backgroundColor: Colors.redAccent,
                             duration: Duration(seconds: 1),
@@ -271,16 +272,79 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                         );
                         return;
                       }
+
+                      // Tarihi al
+                      DateTime selectedDate;
+                      if (dateController.text.isEmpty) {
+                        selectedDate = DateTime.now();
+                      } else {
+                        selectedDate = DateFormat(
+                          'dd.MM.yyyy',
+                        ).parse(dateController.text);
+                      }
+
+                      // Saati al
+                      int hour = 0;
+                      int minute = 0;
+                      if (timeController.text.isNotEmpty) {
+                        try {
+                          final parts = timeController.text.split(':');
+                          hour = int.parse(parts[0]);
+                          minute = int.parse(parts[1]);
+                        } catch (e) {
+                          debugPrint(
+                            'Saat formatı hatalı: ${timeController.text}',
+                          );
+                        }
+                      }
+
+                      // Tarih geçmişse uyar
+                      final scheduledDate = DateTime(
+                        selectedDate.year,
+                        selectedDate.month,
+                        selectedDate.day,
+                        hour,
+                        minute,
+                      );
+
+                      if (scheduledDate.isBefore(DateTime.now())) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Geçmiş bir tarih/saat seçilemez'),
+                            backgroundColor: Colors.orangeAccent,
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                        return;
+                      }
+
+                      // 🔔 Bildirimi planla
+                      await NotificationHelper().scheduleNotification(
+                        title: titleController.text,
+                        body: 'Görev zamanınız geldi..',
+                        year: selectedDate.year,
+                        month: selectedDate.month,
+                        day: selectedDate.day,
+                        hour: hour,
+                        minute: minute,
+                      );
+
+                      // 💾 Veritabanına kaydet
                       await _addTodo();
+
+                      // 🎉 Ekranı kapat + bilgi mesajı
                       Navigator.pop(context, true);
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Görev başarıyla eklendi'),
+                        const SnackBar(
+                          content: Text(
+                            'Görev başarıyla eklendi ve bildirimi ayarlandı',
+                          ),
                           backgroundColor: Colors.green,
                           duration: Duration(seconds: 2),
                         ),
                       );
                     },
+
                     child: Container(
                       margin: EdgeInsets.only(top: 20, bottom: 20),
                       child: Text(
