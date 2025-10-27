@@ -322,7 +322,7 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                       final todoId = await _addTodo();
 
                       // 🔔 Bildirimi planla
-                      await NotificationHelper().scheduleNotification(
+                      int id = await NotificationHelper().scheduleNotification(
                         id: todoId,
                         title: 'Yaklaşan görevin var',
                         body: titleController.text,
@@ -332,6 +332,8 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                         hour: hour,
                         minute: minute,
                       );
+
+                      print('Bildirim id: ${id}');
 
                       //  Ekranı kapat + bilgi mesajı
                       Navigator.pop(context, true);

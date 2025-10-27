@@ -24,12 +24,12 @@ class NotificationHelper {
     await notificationPlugin.initialize(initSettings);
   }
 
-  NotificationDetails notificationDetails() {
-    return const NotificationDetails(
+  NotificationDetails notificationDetails(int id) {
+    return NotificationDetails(
       android: AndroidNotificationDetails(
-        'todo_channel_id',
-        'ToDo',
-        channelDescription: 'ToDo List Channel',
+        'todo_channel_$id',
+        'ToDo $id',
+        channelDescription: 'ToDo List Channel for item $id',
         importance: Importance.high,
         priority: Priority.high,
       ),
@@ -41,10 +41,10 @@ class NotificationHelper {
     String? title,
     String? body,
   }) async {
-    return notificationPlugin.show(id, title, body, notificationDetails());
+    return notificationPlugin.show(id, title, body, notificationDetails(id));
   }
 
-  Future<void> scheduleNotification({
+  Future<int> scheduleNotification({
     required int id,
     required String title,
     required String body,
@@ -68,11 +68,13 @@ class NotificationHelper {
       title,
       body,
       scheduledDate,
-      notificationDetails(),
+      notificationDetails(id),
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       matchDateTimeComponents:
           null, // sadece bu tarihte, bu saatte 1 kez çalışsın
     );
+
+    return id;
   }
 
   Future<void> cancelAllNotification() async {

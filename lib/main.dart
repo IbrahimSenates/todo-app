@@ -9,7 +9,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await DataBaseService.initialize();
   await initializeDateFormatting('tr_TR', null);
-  NotificationHelper().initNotification();
+  await NotificationHelper().initNotification();
   runApp(MyApp());
 }
 
