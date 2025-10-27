@@ -5,6 +5,7 @@ import 'package:todo_app_2/constants/color.dart';
 import 'package:todo_app_2/service/data_base_service.dart';
 import 'package:todo_app_2/service/notification_service.dart';
 import 'package:todo_app_2/widgets/input_widget.dart';
+import 'package:flutter/services.dart';
 
 class AddNewTaskScreen extends StatefulWidget {
   const AddNewTaskScreen({super.key});
@@ -57,6 +58,7 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                 width: deviceWidth,
                 height: deviceHeight / 9,
                 decoration: BoxDecoration(
+                  color: HexColor(buttonColor),
                   image: DecorationImage(
                     image: AssetImage('lib/assets/images/newTaskHeader.png'),
                     fit: BoxFit.fill,
@@ -217,7 +219,7 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                   margin: EdgeInsets.symmetric(horizontal: 20),
 
                   child: TextField(
-                    style: TextStyle(fontSize: 21),
+                    style: TextStyle(fontSize: 18),
                     controller: descriptionController,
 
                     maxLines: 12,
