@@ -1,4 +1,4 @@
-package com.example.todo_app_2
+package com.senates.todo_app_2
 
 import io.flutter.embedding.android.FlutterActivity
 

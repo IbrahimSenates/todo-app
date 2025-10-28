@@ -1,12 +1,20 @@
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
 
+import java.util.Properties
+import java.io.FileInputStream
+
+val keyStoreProperties = Properties()
+val keyStorePropertiesFile = rootProject.file("key.properties")
+if (keyStorePropertiesFile.exists()) {
+    keyStoreProperties.load(FileInputStream(keyStorePropertiesFile))
+}
+
 android {
-    namespace = "com.example.todo_app_2"
+    namespace = "com.senates.todo_app_2"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -21,16 +29,25 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.todo_app_2"
+        applicationId = "com.senates.todo_app_2"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+        create("release") {
+            keyAlias = keyStoreProperties["keyAlias"] as String?
+            keyPassword = keyStoreProperties["keyPassword"] as String?
+            storeFile = keyStoreProperties["storeFile"]?.let { file(it as String) }
+            storePassword = keyStoreProperties["storePassword"] as String?
+        }
+    }
+
     buildTypes {
-        release {
-            signingConfig = signingConfigs.getByName("debug")
+        getByName("release") {
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 }
