@@ -22,6 +22,16 @@ class NotificationHelper {
 
     const initSettings = InitializationSettings(android: initSettingsAndroid);
     await notificationPlugin.initialize(initSettings);
+    final androidImplementation = notificationPlugin
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >();
+
+    final bool? granted = await androidImplementation
+        ?.requestNotificationsPermission();
+    print("Bildirim izni verildi mi? $granted");
+
+    _isInitialized = true;
   }
 
   NotificationDetails notificationDetails(int id) {
@@ -86,7 +96,7 @@ class NotificationHelper {
     print('Başarlı');
   }
 
-  static Future<void> enableNotification({
+  Future<void> enableNotification({
     required int id,
     required String title,
     required String body,
@@ -113,15 +123,7 @@ class NotificationHelper {
       title,
       body,
       scheduledDate,
-      const NotificationDetails(
-        android: AndroidNotificationDetails(
-          'todo_channel_id',
-          'ToDo',
-          channelDescription: 'ToDo List Channel',
-          importance: Importance.high,
-          priority: Priority.high,
-        ),
-      ),
+      notificationDetails(id),
       androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
 
       matchDateTimeComponents: null,

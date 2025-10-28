@@ -149,7 +149,7 @@ class _TodoListColumnState extends State<TodoListColumn> {
                   await NotificationHelper().deleteNotification(id: todo.id);
                 } else {
                   // Tamamlanmadıysa bildirimi yeniden planla
-                  await NotificationHelper.enableNotification(
+                  await NotificationHelper().enableNotification(
                     id: updatedTodo.id,
                     title: "Hazırsan, görev seni bekliyor!",
                     body: updatedTodo.text!,

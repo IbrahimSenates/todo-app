@@ -6,6 +6,9 @@ import "package:todo_app_2/widgets/header_widget.dart";
 import "package:todo_app_2/screens/add_new_task.dart";
 import "package:todo_app_2/widgets/todo_list_column.dart";
 import 'package:flutter/services.dart';
+import 'package:todo_app_2/helpers/app_settings_helper.dart';
+import 'dart:io';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,10 +25,50 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {});
   }
 
+  // İlk açılışta kullanıcıya sor
+  Future<void> _checkAndAskSettings() async {
+    if (!Platform.isAndroid) return;
+
+    final prefs = await SharedPreferences.getInstance();
+    bool? alreadyAsked = prefs.getBool('settingsAsked');
+
+    if (alreadyAsked == null || alreadyAsked == false) {
+      // Dialog göster
+      bool userAccepted = await showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text('Uygulama Ayarları'),
+          content: Text(
+            'Uygulamanın düzgün çalışması için Auto-Start ve Pil Optimizasyon ayarlarını açmak ister misiniz?',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text('Hayır'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: Text('Evet'),
+            ),
+          ],
+        ),
+      );
+
+      if (userAccepted == true) {
+        openAutoStartSettings();
+        openBatteryOptimizationSettings();
+      }
+
+      // Kullanıcının yanıtını kaydet
+      prefs.setBool('settingsAsked', true);
+    }
+  }
+
   @override
   void initState() {
     _getTodoList();
     super.initState();
+    _checkAndAskSettings(); //sadece bir kez sorulacak
   }
 
   @override
