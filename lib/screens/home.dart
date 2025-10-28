@@ -75,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
-        statusBarColor: Colors.black, // Bildirim çubuğu rengi beyaz
+        statusBarColor: Colors.black, // Bildirim çubuğu rengi
         statusBarIconBrightness: Brightness.dark, // İkonlar koyu olur
       ),
       child: SafeArea(

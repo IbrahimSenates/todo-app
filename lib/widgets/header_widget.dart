@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app_2/constants/color.dart';
+import 'package:todo_app_2/screens/settings_screen.dart';
 
 class HeaderItem extends StatelessWidget {
   HeaderItem({super.key});
@@ -24,28 +25,48 @@ class HeaderItem extends StatelessWidget {
       ),
       width: deviceWidht,
       height: deviceHeight / 3,
-      child: Column(
+      child: Stack(
         children: [
-          Padding(
-            padding: EdgeInsets.only(top: 20),
-            child: Text(
-              formattedData,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+          Align(
+            alignment: Alignment.center,
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: Text(
+                    formattedData,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: Text(
+                    "Yapılacaklar",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 35,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(top: 20),
-            child: Text(
-              "Yapılacaklar",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 35,
-                fontWeight: FontWeight.bold,
-              ),
+          Positioned(
+            top: 10,
+            right: 5,
+            child: IconButton(
+              icon: Icon(Icons.settings, size: 35, color: Colors.white),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SettingScreen()),
+                );
+              },
             ),
           ),
         ],
