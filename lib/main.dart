@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:todo_app_2/screens/home.dart';
-import 'package:todo_app_2/screens/onboarding_screen.dart';
+import 'package:todo_app_2/screens/splash_screen.dart';
 import 'package:todo_app_2/service/data_base_service.dart';
 import 'package:todo_app_2/service/notification_service.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -25,7 +24,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: showHome ? HomeScreen() : OnboardingScreen(),
+      home: SplashScreen(showHome: showHome),
       locale: Locale('tr', 'TR'),
       supportedLocales: [Locale('tr', 'TR')],
       localizationsDelegates: [
@@ -36,4 +35,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-//

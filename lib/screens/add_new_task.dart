@@ -5,7 +5,6 @@ import 'package:todo_app_2/constants/color.dart';
 import 'package:todo_app_2/service/data_base_service.dart';
 import 'package:todo_app_2/service/notification_service.dart';
 import 'package:todo_app_2/widgets/input_widget.dart';
-import 'package:flutter/services.dart';
 
 class AddNewTaskScreen extends StatefulWidget {
   const AddNewTaskScreen({super.key});
