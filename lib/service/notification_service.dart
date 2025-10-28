@@ -18,7 +18,7 @@ class NotificationHelper {
     tz.setLocalLocation(tz.getLocation(currentTimeZone.identifier));
 
     const AndroidInitializationSettings initSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+        AndroidInitializationSettings('notification_icon');
 
     const initSettings = InitializationSettings(android: initSettingsAndroid);
     await notificationPlugin.initialize(initSettings);
@@ -42,6 +42,7 @@ class NotificationHelper {
         channelDescription: 'ToDo List Channel for item $id',
         importance: Importance.high,
         priority: Priority.high,
+        icon: 'notification_icon',
       ),
     );
   }

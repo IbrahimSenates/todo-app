@@ -1,19 +1,32 @@
 import 'package:android_intent_plus/android_intent.dart';
 import 'dart:io';
 
-void openAutoStartSettings() {
+Future<void> openAutoStartSettings() async {
   if (!Platform.isAndroid) return;
 
-  //Xiaomi cihazlar için
-  final intent = AndroidIntent(
-    action: 'miui.intent.action.OP_AUTO_START',
-    package: 'com.miui.securitycenter',
-  );
+  try {
+    // Xiaomi cihazlar için
+    final intent = AndroidIntent(
+      action: 'miui.intent.action.OP_AUTO_START',
+      package: 'com.miui.securitycenter',
+    );
+
+    await intent.launch();
+  } catch (e) {
+    print('Auto-start ayarları açılamadı: $e');
+  }
 }
 
-void openBatteryOptimizationSettings() {
+Future<void> openBatteryOptimizationSettings() async {
   if (!Platform.isAndroid) return;
-  final intent = AndroidIntent(
-    action: 'android.settings.IGNORE_BATTERY_OPTIMIZATION_SETTINGS',
-  );
+
+  try {
+    final intent = AndroidIntent(
+      action: 'android.settings.IGNORE_BATTERY_OPTIMIZATION_SETTINGS',
+    );
+
+    await intent.launch();
+  } catch (e) {
+    print('Pil optimizasyon ayarları açılamadı: $e');
+  }
 }
